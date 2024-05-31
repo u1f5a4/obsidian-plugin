@@ -1,0 +1,34 @@
+{
+  "folders": [
+    {
+      "path": "." // работа через дополнительные папки ломает переменную ${workspaceFolder}
+    }
+  ],
+  "settings": {
+    // "workbench.editorAssociations": {
+    //   "*.md": "vscode.markdown.preview.editor"
+    // },
+    "oxc_language_server.configPath": "oxlintrc.json",
+    "files.autoSave": "off",
+
+    // https://github.com/pucelle/vscode-run-on-save
+    "runOnSave.commands": [
+      {
+        "command": "node ${workspaceFolder}/scripts/copy-plugin-to-obsidian.js",
+        "runIn": "backend",
+        "finishStatusMessage": "Sync done"
+      },
+      {
+        "command": "npx dprint fmt",
+        "runIn": "backend"
+      }
+    ]
+  },
+  "tasks": {
+    "version": "2.0.0",
+    "tasks": []
+  },
+  "extensions": {
+    "recommendations": []
+  }
+}

@@ -1,0 +1,11 @@
+{
+	"id": "obsidian-plugin",
+	"name": "obsidian-plugin",
+	"version": "0.0.1",
+	"minAppVersion": "1.5.12",
+	"description": "",
+	"author": "",
+	"authorUrl": "",
+	"fundingUrl": "",
+	"isDesktopOnly": true
+}

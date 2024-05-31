@@ -1,0 +1,16 @@
+{
+  "lineWidth": 120,
+  "typescript": {
+  },
+  "json": {
+  },
+  "excludes": [
+    "**/node_modules",
+    "**/*-lock.json",
+    "**/dist"
+  ],
+  "plugins": [
+    "https://plugins.dprint.dev/typescript-0.91.0.wasm",
+    "https://plugins.dprint.dev/json-0.19.3.wasm"
+  ]
+}
