@@ -1,13 +1,12 @@
 import fs from "fs/promises";
 
-const SOURCE = "/Users/ds/projects/obsidian-plugin/dist/";
-const DESTINATION =
-  "/Users/ds/Library/Mobile Documents/iCloud~md~obsidian/Documents/second brain/.obsidian/plugins/test-plugin/";
-const TIME_BUILD = 1000; // ms
+import { DESTINATION, SOURCE, TIME_BUILD } from "./constants.js";
+import { copyCss } from "./copy-css.js";
 
 main();
 async function main() {
   await delay(TIME_BUILD);
+  await copyCss();
   const files = await getFiles(SOURCE);
   for (let i = 0; i < files.length; i++) {
     const sourceFile = `${SOURCE}${files[i]}`;
