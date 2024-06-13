@@ -1,7 +1,7 @@
+import { Calendar } from "@/widgets/main-calendar";
+
+import "./style.scss";
+
 export const MainPage = () => {
-  return (
-    <>
-      <h4>Main Page</h4>
-    </>
-  );
+  return <Calendar />;
 };

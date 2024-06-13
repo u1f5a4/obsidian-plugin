@@ -30,7 +30,7 @@ export const todoSchema: RxJsonSchema<TodoDocumentType> = {
       format: "date-time",
     },
   },
-  required: ["name", "done", "timestamp"],
+  required: ["id", "name", "done", "timestamp"],
 };
 
 export async function createTodo(entity: Omit<TodoDocumentType, "id">) {

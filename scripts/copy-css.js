@@ -13,7 +13,10 @@ export async function copyCss() {
 
   await fs.rename(pathMain, pathStyles);
 
-  if (isExistMain) throw new Error("Failed to copy css");
+  setTimeout(async () => {
+    const isExistMain = await fileExists(pathMain);
+    if (isExistMain) throw new Error("Failed to copy css");
+  }, 1000);
 }
 
 async function fileExists(path) {
