@@ -2,9 +2,11 @@ import { ItemView, WorkspaceLeaf } from "obsidian";
 import { StrictMode } from "react";
 import { createRoot, Root } from "react-dom/client";
 
+import { MainPage } from "@/pages/main/MainPage";
+
 import { IS_DEVELOPMENT, IS_PRODUCTION } from "./constants";
 import MyPlugin from "./plugin";
-import { ReactApp } from "./ReactApp";
+import { ProviderRxdb } from "./providerRxdb";
 
 export const MAIN_VIEW_TYPE = "main-view";
 
@@ -52,14 +54,18 @@ class MainView extends ItemView {
     if (IS_PRODUCTION) {
       this.root.render(
         <StrictMode>
-          <ReactApp page="main" />
+          <ProviderRxdb>
+            <MainPage />
+          </ProviderRxdb>,
         </StrictMode>,
       );
     }
 
     if (IS_DEVELOPMENT) {
       this.root.render(
-        <ReactApp page="main" />,
+        <ProviderRxdb>
+          <MainPage />
+        </ProviderRxdb>,
       );
     }
   }

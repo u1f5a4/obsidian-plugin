@@ -2,9 +2,10 @@ import { ItemView, WorkspaceLeaf } from "obsidian";
 import { StrictMode } from "react";
 import { createRoot, Root } from "react-dom/client";
 
+import { SidebarPage } from "@/pages/sidebar/SidebarPage";
 import { IS_DEVELOPMENT, IS_PRODUCTION } from "./constants";
 import MyPlugin from "./plugin";
-import { ReactApp } from "./ReactApp";
+import { ProviderRxdb } from "./providerRxdb";
 
 export const SIDE_VIEW_TYPE = "side-view";
 
@@ -52,14 +53,18 @@ class SidebarView extends ItemView {
     if (IS_PRODUCTION) {
       this.root.render(
         <StrictMode>
-          <ReactApp page="sidebar" />
+          <ProviderRxdb>
+            <SidebarPage />
+          </ProviderRxdb>,
         </StrictMode>,
       );
     }
 
     if (IS_DEVELOPMENT) {
       this.root.render(
-        <ReactApp page="sidebar" />,
+        <ProviderRxdb>
+          <SidebarPage />
+        </ProviderRxdb>,
       );
     }
   }

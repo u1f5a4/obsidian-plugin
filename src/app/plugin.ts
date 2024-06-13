@@ -1,6 +1,7 @@
 import { Plugin } from "obsidian";
 
 import { initMainView } from "./pluginMainView";
+import { initModal } from "./pluginModal";
 import { initSettingTab } from "./pluginSettingTab";
 import { initSidebarView } from "./pluginSidebarView";
 
@@ -16,5 +17,7 @@ export default class MyPlugin extends Plugin {
     await initSidebarView(this);
     await delay(100);
     await initSettingTab(this);
+    await delay(100);
+    initModal(this);
   }
 }
