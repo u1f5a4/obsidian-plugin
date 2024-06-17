@@ -22,7 +22,11 @@
         "command": "npx dprint fmt",
         "runIn": "backend"
       }
-    ]
+    ],
+
+    "files.exclude": {
+      "dependency-graph.svg": true
+    }
   },
   "tasks": {
     "version": "2.0.0",
