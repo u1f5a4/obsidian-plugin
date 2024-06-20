@@ -3,7 +3,6 @@ import path from "path";
 
 import { SOURCE } from "./constants.js";
 
-copyCss();
 export async function copyCss() {
   const pathMain = path.join(SOURCE, "main.css");
   const pathStyles = path.join(SOURCE, "styles.css");
