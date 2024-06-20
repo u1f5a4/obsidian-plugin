@@ -37,7 +37,6 @@
     "@schedule-x/events-service": "^1.46.4",
     "@schedule-x/react": "^1.46.3",
     "@schedule-x/resize": "^1.46.4",
-    "@schedule-x/scroll-controller": "^1.46.4",
     "@schedule-x/shared": "^1.46.4",
     "@schedule-x/theme-default": "^1.46.4",
     "date-fns": "^3.6.0",
