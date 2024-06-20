@@ -3,6 +3,7 @@ import { StrictMode } from "react";
 import { createRoot, Root } from "react-dom/client";
 
 import { Create, CreateProps } from "@/pages/create/Create";
+import { Edit, EditProps } from "@/pages/edit/Edit";
 import { Read, ReadProps } from "@/pages/read/Read";
 
 import { IS_DEVELOPMENT, IS_PRODUCTION } from "@/app/constants";
@@ -10,8 +11,8 @@ import { ProviderRxdb } from "@/app/providerRxdb";
 
 import MyPlugin from "./plugin";
 
-type ModalType = "onClickDateTime" | "onEventClick";
-type ModalProps = Partial<CreateProps & ReadProps>;
+type ModalType = "onClickDateTime" | "onEventClick" | "editEvent";
+type ModalProps = Partial<CreateProps & ReadProps & EditProps>;
 
 class SampleModal extends Modal {
   root: Root | null = null;
@@ -34,8 +35,9 @@ class SampleModal extends Modal {
     this.root = createRoot(this.containerEl.children[1]);
 
     const modals: Record<ModalType, JSX.Element> = {
-      onClickDateTime: <Create clickDateTime={data?.clickDateTime} />,
-      onEventClick: <Read eventClickId={data?.eventClickId} />,
+      onClickDateTime: data?.clickDateTime ? <Create clickDateTime={data?.clickDateTime} /> : <p>Error</p>,
+      onEventClick: data?.eventClickId ? <Read eventClickId={data?.eventClickId} /> : <p>Error</p>,
+      editEvent: data?.eventId ? <Edit eventId={data?.eventId} /> : <p>Error</p>,
     };
 
     if (IS_PRODUCTION) {

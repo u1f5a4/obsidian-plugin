@@ -1,6 +1,6 @@
 import { CalendarAppSingleton } from "@schedule-x/shared";
 
-import { openModal } from "@/app/plugin";
+import { openModal } from "@/app/lib/plugin";
 import { updateEvent } from "@/entities/event";
 
 class MainPlugin {

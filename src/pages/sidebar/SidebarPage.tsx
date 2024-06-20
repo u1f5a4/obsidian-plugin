@@ -1,5 +1,14 @@
-import { SidebarCalendar } from "@/modules/SidebarCalendar";
+import { SidebarCalendar } from "@/app/lib/SidebarCalendar";
+import { useScrollToTimeIndicator } from "@/features/ScrollToTimeIndicator";
+
+import "./style.scss";
 
 export const SidebarPage = () => {
-  return <SidebarCalendar />;
+  useScrollToTimeIndicator("sidebar", 5, 500);
+
+  return (
+    <div className="sidebar">
+      <SidebarCalendar />
+    </div>
+  );
 };

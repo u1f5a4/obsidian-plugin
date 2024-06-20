@@ -1,4 +1,4 @@
-import Database from "@/modules/database";
+import Database from "@/app/model/database";
 import { useEffect, useState } from "react";
 import { Provider } from "rxdb-hooks";
 

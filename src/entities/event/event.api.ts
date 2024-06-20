@@ -1,7 +1,8 @@
 import { randomUUID } from "crypto";
 import { RxCollection } from "rxdb";
 
-import Database from "@/modules/database";
+import Database from "@/app/model/database";
+
 import { CalendarEvent } from "./event.model";
 
 export async function createEvent(entity: Omit<CalendarEvent, "id">) {
@@ -13,7 +14,7 @@ export async function createEvent(entity: Omit<CalendarEvent, "id">) {
   });
 }
 
-export async function updateEvent(eventId: string, newData: Partial<CalendarEvent>) {
+export async function updateEvent(eventId: CalendarEvent["id"], newData: Partial<CalendarEvent>) {
   const collection: RxCollection<CalendarEvent> = Database.getCollection("events");
 
   const event = await collection.findOne({ selector: { id: eventId } }).exec();
@@ -24,7 +25,7 @@ export async function updateEvent(eventId: string, newData: Partial<CalendarEven
     keysNewData.forEach((key) => {
       if (newData[key] === undefined) return;
 
-      // TODO: add validation
+      // TODO: fix type
       // @ts-ignore
       oldData[key] = newData[key];
     });
@@ -34,7 +35,7 @@ export async function updateEvent(eventId: string, newData: Partial<CalendarEven
   await event?.modify(changeOldData);
 }
 
-export async function deleteEvent(eventId: string) {
+export async function deleteEvent(eventId: CalendarEvent["id"]) {
   const collection: RxCollection<CalendarEvent> = Database.getCollection("events");
 
   const event = await collection.findOne({ selector: { id: eventId } }).exec();

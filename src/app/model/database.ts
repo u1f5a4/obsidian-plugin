@@ -7,11 +7,9 @@ import { RxDBUpdatePlugin } from "rxdb/plugins/update";
 
 import { IS_DEVELOPMENT } from "@/app/constants";
 import { eventSchema } from "@/entities/event";
-import { type TodoDocumentType, todoSchema } from "@/entities/todo";
 import { CalendarEvent } from "@schedule-x/shared";
 
 export interface Collections {
-  todos: RxCollection<TodoDocumentType>;
   events: RxCollection<CalendarEvent>;
 }
 
@@ -32,6 +30,8 @@ class Database {
     addRxPlugin(RxDBUpdatePlugin);
     addRxPlugin(RxDBJsonDumpPlugin);
 
+    // How disable warnings?
+    // move "node_modules/rxdb/dist/esm/plugins/storage-dexie/rx-storage-instance-dexie.js" to comment out line 30
     const myDatabase: RxDatabase<Collections> = await createRxDatabase({
       name: "test",
       storage: getRxStorageDexie(),
@@ -39,9 +39,6 @@ class Database {
     });
 
     await myDatabase.addCollections({
-      todos: {
-        schema: todoSchema,
-      },
       events: {
         schema: eventSchema,
       },
