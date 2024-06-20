@@ -1,9 +1,5 @@
-import { Calendar } from "@/widgets/sidebar-calendar";
+import { SidebarCalendar } from "@/modules/SidebarCalendar";
 
 export const SidebarPage = () => {
-  return (
-    <>
-      <Calendar />
-    </>
-  );
+  return <SidebarCalendar />;
 };

@@ -13,10 +13,13 @@ export default class MyPlugin extends Plugin {
   async onload() {
     await delay(300);
     await initMainView(this);
+
     await delay(100);
     await initSidebarView(this);
+
     await delay(100);
     await initSettingTab(this);
+
     await delay(100);
     initModal(this);
   }

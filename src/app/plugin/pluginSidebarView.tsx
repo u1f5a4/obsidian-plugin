@@ -2,38 +2,38 @@ import { ItemView, WorkspaceLeaf } from "obsidian";
 import { StrictMode } from "react";
 import { createRoot, Root } from "react-dom/client";
 
-import { MainPage } from "@/pages/main/MainPage";
+import { IS_DEVELOPMENT, IS_PRODUCTION } from "@/app/constants";
+import { ProviderRxdb } from "@/app/providerRxdb";
+import { SidebarPage } from "@/pages/sidebar/SidebarPage";
 
-import { IS_DEVELOPMENT, IS_PRODUCTION } from "./constants";
 import MyPlugin from "./plugin";
-import { ProviderRxdb } from "./providerRxdb";
 
-export const MAIN_VIEW_TYPE = "main-view";
+export const SIDE_VIEW_TYPE = "side-view";
 
-export async function initMainView(plugin: MyPlugin) {
+export async function initSidebarView(plugin: MyPlugin) {
   plugin.registerView(
-    MAIN_VIEW_TYPE,
-    (leaf) => new MainView(leaf),
+    SIDE_VIEW_TYPE,
+    (leaf) => new SidebarView(leaf),
   );
 
-  plugin.addRibbonIcon("calendar", "Activate view", async () => {
+  plugin.addRibbonIcon("sidebar", "Activate view", async () => {
     const { workspace } = plugin.app;
 
     let leaf: WorkspaceLeaf | null = null;
-    const leaves = workspace.getLeavesOfType(MAIN_VIEW_TYPE);
+    const leaves = workspace.getLeavesOfType(SIDE_VIEW_TYPE);
 
     if (leaves.length > 0) {
       leaf = leaves[0];
     } else {
-      leaf = workspace.getLeaf(false);
-      await leaf?.setViewState({ type: MAIN_VIEW_TYPE, active: true });
+      leaf = workspace.getRightLeaf(false);
+      await leaf?.setViewState({ type: SIDE_VIEW_TYPE, active: true });
     }
 
     if (leaf) workspace.revealLeaf(leaf);
   });
 }
 
-class MainView extends ItemView {
+class SidebarView extends ItemView {
   root: Root | null = null;
 
   constructor(leaf: WorkspaceLeaf) {
@@ -41,7 +41,7 @@ class MainView extends ItemView {
   }
 
   getViewType() {
-    return MAIN_VIEW_TYPE;
+    return SIDE_VIEW_TYPE;
   }
 
   getDisplayText() {
@@ -55,7 +55,7 @@ class MainView extends ItemView {
       this.root.render(
         <StrictMode>
           <ProviderRxdb>
-            <MainPage />
+            <SidebarPage />
           </ProviderRxdb>,
         </StrictMode>,
       );
@@ -64,7 +64,7 @@ class MainView extends ItemView {
     if (IS_DEVELOPMENT) {
       this.root.render(
         <ProviderRxdb>
-          <MainPage />
+          <SidebarPage />
         </ProviderRxdb>,
       );
     }
