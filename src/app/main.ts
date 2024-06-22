@@ -1,3 +1,5 @@
-import ObsidianPlugin from "./plugin";
+import ObsidianPlugin from "./lib/plugin"
 
-export default ObsidianPlugin;
+import "./reseter.css"
+
+export default ObsidianPlugin

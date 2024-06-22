@@ -1,63 +1,43 @@
-import { CalendarEvent as XCalendarEvent } from "@schedule-x/shared";
-import { randomUUID } from "crypto";
-import { RxJsonSchema } from "rxdb";
+import { randomUUID } from "crypto"
+import { RxCollection } from "rxdb"
 
-import Database from "@/modules/database";
+import { database } from "@/app/model/rxdb"
 
-export interface CalendarEvent extends XCalendarEvent {}
-
-export const eventSchema: RxJsonSchema<CalendarEvent> = {
-  version: 0,
-  primaryKey: "id",
-  type: "object",
-  properties: {
-    id: {
-      type: "string",
-      maxLength: 32,
-    },
-    title: {
-      type: "string",
-    },
-    start: {
-      type: "string",
-    },
-    end: {
-      type: "string",
-    },
-    location: {
-      type: "string",
-    },
-    people: {
-      type: "array",
-      items: {
-        type: "string",
-      },
-    },
-    calendarId: {
-      type: "string",
-    },
-  },
-  required: ["id", "start", "end"],
-};
+import { CalendarEvent } from "./event.model"
 
 export async function createEvent(entity: Omit<CalendarEvent, "id">) {
-  const collection = Database.getCollection("events");
+  const collection = database.getCollection("events")
 
   return await collection?.insert({
     id: randomUUID(),
     ...entity,
-  });
+  })
 }
 
-export function sanitizeEvent(event: CalendarEvent): CalendarEvent {
-  return {
-    id: event.id,
-    start: event.start,
-    end: event.end,
-    title: event.title,
-    people: event.people,
-    location: event.location,
-    description: event.description,
-    calendarId: event.calendarId,
-  };
+export async function updateEvent(eventId: CalendarEvent["id"], newData: Partial<CalendarEvent>) {
+  const collection: RxCollection<CalendarEvent> = database.getCollection("events")
+
+  const event = await collection.findOne({ selector: { id: eventId } }).exec()
+
+  const changeOldData = (oldData: CalendarEvent): CalendarEvent => {
+    const keysNewData = Object.keys(newData) as Array<keyof CalendarEvent>
+
+    keysNewData.forEach((key) => {
+      if (newData[key] === undefined) return
+
+      // TODO: fix type
+      // @ts-ignore
+      oldData[key] = newData[key]
+    })
+    return oldData
+  }
+
+  await event?.modify(changeOldData)
+}
+
+export async function deleteEvent(eventId: CalendarEvent["id"]) {
+  const collection: RxCollection<CalendarEvent> = database.getCollection("events")
+
+  const event = await collection.findOne({ selector: { id: eventId } }).exec()
+  await event?.remove()
 }

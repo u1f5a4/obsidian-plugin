@@ -1,0 +1,14 @@
+.sidebar {
+  .sx__calendar-header {
+    display: none;
+  }
+  
+  .sx__week-grid__date-axis {
+    display: none;
+  }
+
+  .sx__current-time-indicator {
+    z-index: 1;
+  }
+}
+
