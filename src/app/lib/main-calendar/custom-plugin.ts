@@ -9,13 +9,9 @@ class MainPlugin {
   init($app: CalendarAppSingleton) {
     $app.config.callbacks = {
       onEventUpdate: (event) => {
-        console.log("onEventUpdate", event)
-
         updateEvent(String(event.id), event)
       },
       onEventClick: (event) => {
-        console.log("onEventClick", event)
-
         openModal("onEventClick", { eventClickId: String(event.id) })
       },
       onRangeUpdate: (range) => {

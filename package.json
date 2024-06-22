@@ -30,11 +30,9 @@
   "dependencies": {
     "@date-fns/utc": "^1.2.0",
     "@emotion/css": "^11.11.2",
-    "@schedule-x/calendar-controls": "^1.46.4",
     "@schedule-x/current-time": "^1.46.4",
     "@schedule-x/drag-and-drop": "^1.46.4",
     "@schedule-x/event-recurrence": "^1.46.4",
-    "@schedule-x/events-service": "^1.46.4",
     "@schedule-x/react": "^1.46.3",
     "@schedule-x/resize": "^1.46.4",
     "@schedule-x/shared": "^1.46.4",
