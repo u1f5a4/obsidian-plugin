@@ -1,15 +1,18 @@
 import { CalendarAppSingleton } from "@schedule-x/shared"
 
+import { openModal } from "@/app/lib/plugin"
+import { updateEvent } from "@/entities/event"
+
 class SidebarPlugin {
   name = "sidebar-caldendar-plugin"
 
   init($app: CalendarAppSingleton) {
     $app.config.callbacks = {
       onEventUpdate: (event) => {
-        console.log("onEventUpdate", event)
+        updateEvent(String(event.id), event)
       },
       onEventClick: (event) => {
-        console.log("onEventClick", event)
+        openModal("onEventClick", { eventClickId: String(event.id) })
       },
       onRangeUpdate: (range) => {
         console.log("onRangeUpdate", range)
