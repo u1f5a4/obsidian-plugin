@@ -17,10 +17,9 @@ class Database {
   private myDatabase: any
 
   constructor() {
-    this.init()
   }
 
-  private async init() {
+  async init() {
     if (IS_DEVELOPMENT) {
       disableWarnings()
       addRxPlugin(RxDBDevModePlugin)
