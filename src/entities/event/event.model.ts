@@ -1,14 +1,14 @@
-import { RxJsonSchema } from "rxdb";
+import { RxJsonSchema } from "rxdb"
 
 export interface CalendarEvent {
-  id: string | number;
-  start: string;
-  end: string;
-  title?: string;
-  people?: string[];
-  location?: string;
-  description?: string;
-  calendarId?: string;
+  id: string | number
+  start: string
+  end: string
+  title?: string
+  people?: string[]
+  location?: string
+  description?: string
+  calendarId?: string
 }
 
 export const eventSchema: RxJsonSchema<CalendarEvent> = {
@@ -26,7 +26,7 @@ export const eventSchema: RxJsonSchema<CalendarEvent> = {
     calendarId: { type: "string" },
   },
   required: ["id", "start", "end"],
-};
+}
 
 export function sanitizeEvent(event: CalendarEvent): CalendarEvent {
   return {
@@ -38,5 +38,5 @@ export function sanitizeEvent(event: CalendarEvent): CalendarEvent {
     location: event.location,
     description: event.description,
     calendarId: event.calendarId,
-  };
+  }
 }

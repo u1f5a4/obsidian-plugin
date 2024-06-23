@@ -1,76 +1,76 @@
-import { ItemView, WorkspaceLeaf } from "obsidian";
-import { StrictMode } from "react";
-import { createRoot, Root } from "react-dom/client";
+import { ItemView, WorkspaceLeaf } from "obsidian"
+import { StrictMode } from "react"
+import { createRoot, Root } from "react-dom/client"
 
-import { IS_DEVELOPMENT, IS_PRODUCTION } from "@/app/constants";
-import { ProviderRxdb } from "@/app/providerRxdb";
-import { MainPage } from "@/pages/main/MainPage";
+import { IS_DEVELOPMENT, IS_PRODUCTION } from "@/app/constants"
+import { ProviderDB } from "@/app/model/rxdb"
+import { Main } from "@/pages/main"
 
-import MyPlugin from "./plugin";
+import MyPlugin from "./plugin"
 
-export const MAIN_VIEW_TYPE = "main-view";
+export const MAIN_VIEW_TYPE = "main-view"
 
 export async function initMainView(plugin: MyPlugin) {
   plugin.registerView(
     MAIN_VIEW_TYPE,
     (leaf) => new MainView(leaf),
-  );
+  )
 
   plugin.addRibbonIcon("calendar", "Activate view", async () => {
-    const { workspace } = plugin.app;
+    const { workspace } = plugin.app
 
-    let leaf: WorkspaceLeaf | null = null;
-    const leaves = workspace.getLeavesOfType(MAIN_VIEW_TYPE);
+    let leaf: WorkspaceLeaf | null = null
+    const leaves = workspace.getLeavesOfType(MAIN_VIEW_TYPE)
 
     if (leaves.length > 0) {
-      leaf = leaves[0];
+      leaf = leaves[0]
     } else {
-      leaf = workspace.getLeaf(false);
-      await leaf?.setViewState({ type: MAIN_VIEW_TYPE, active: true });
+      leaf = workspace.getLeaf(false)
+      await leaf?.setViewState({ type: MAIN_VIEW_TYPE, active: true })
     }
 
-    if (leaf) workspace.revealLeaf(leaf);
-  });
+    if (leaf) workspace.revealLeaf(leaf)
+  })
 }
 
 class MainView extends ItemView {
-  root: Root | null = null;
+  root: Root | null = null
 
   constructor(leaf: WorkspaceLeaf) {
-    super(leaf);
+    super(leaf)
   }
 
   getViewType() {
-    return MAIN_VIEW_TYPE;
+    return MAIN_VIEW_TYPE
   }
 
   getDisplayText() {
-    return "obsidian-plugin";
+    return "obsidian-plugin"
   }
 
   async onOpen() {
-    this.root = createRoot(this.containerEl.children[1]);
+    this.root = createRoot(this.containerEl.children[1])
 
     if (IS_PRODUCTION) {
       this.root.render(
         <StrictMode>
-          <ProviderRxdb>
-            <MainPage />
-          </ProviderRxdb>,
+          <ProviderDB>
+            <Main />
+          </ProviderDB>,
         </StrictMode>,
-      );
+      )
     }
 
     if (IS_DEVELOPMENT) {
       this.root.render(
-        <ProviderRxdb>
-          <MainPage />
-        </ProviderRxdb>,
-      );
+        <ProviderDB>
+          <Main />
+        </ProviderDB>,
+      )
     }
   }
 
   async onClose() {
-    this.root?.unmount();
+    this.root?.unmount()
   }
 }

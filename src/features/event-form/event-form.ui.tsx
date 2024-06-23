@@ -1,22 +1,22 @@
-import { useFormContext } from "react-hook-form";
+import { useFormContext } from "react-hook-form"
 
-import { CInput } from "@/shared/ui/CInput";
-import { CSelectDate } from "@/shared/ui/CSelectDate";
-import { CSelectTime } from "@/shared/ui/CSelectTime";
+import { CInput } from "@/shared/ui/CInput"
+import { CSelectDate } from "@/shared/ui/CSelectDate"
+import { CSelectTime } from "@/shared/ui/CSelectTime"
 
-import "./style.scss";
+import "./style.scss"
 
 export interface EventFormProps extends Partial<FieldValues> {
-  h1: string;
-  onSubmit: (data: FieldValues) => void;
+  h1: string
+  onSubmit: (data: FieldValues) => void
 }
 
 export interface FieldValues {
-  title: string;
-  startDate: string;
-  startTime: string;
-  endDate: string;
-  endTime: string;
+  title: string
+  startDate: string
+  startTime: string
+  endDate: string
+  endTime: string
 }
 
 export const EventForm = (props: EventFormProps) => {
@@ -25,23 +25,23 @@ export const EventForm = (props: EventFormProps) => {
     formState: { errors },
     control,
     getValues,
-  } = useFormContext<FieldValues>();
+  } = useFormContext<FieldValues>()
 
   const validate = {
     validateEnd: () => {
-      const [startDate, startTime] = getValues(["startDate", "startTime"]);
-      const [endDate, endTime] = getValues(["endDate", "endTime"]);
+      const [startDate, startTime] = getValues(["startDate", "startTime"])
+      const [endDate, endTime] = getValues(["endDate", "endTime"])
 
-      const start = new Date(`${startDate} ${startTime}`).getTime();
-      const end = new Date(`${endDate} ${endTime}`).getTime();
+      const start = new Date(`${startDate} ${startTime}`).getTime()
+      const end = new Date(`${endDate} ${endTime}`).getTime()
 
-      if (start > end) return false;
-      return true;
+      if (start > end) return false
+      return true
     },
-  };
+  }
 
   return (
-    <form onSubmit={handleSubmit(props.onSubmit)} className="edit">
+    <form onSubmit={handleSubmit(props.onSubmit)} className="event-form">
       <h1>{props.h1}</h1>
 
       <label>
@@ -93,5 +93,5 @@ export const EventForm = (props: EventFormProps) => {
 
       <button type="submit">Submit</button>
     </form>
-  );
-};
+  )
+}

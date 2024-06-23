@@ -1,42 +1,42 @@
-import { formatDuration, intervalToDuration } from "date-fns";
-import { useRxData } from "rxdb-hooks";
+import { formatDuration, intervalToDuration } from "date-fns"
+import { useRxData } from "rxdb-hooks"
 
-import { closeModal, openModal } from "@/app/lib/plugin";
-import { CalendarEvent, deleteEvent } from "@/entities/event";
+import { closeModal, openModal } from "@/app/lib/plugin"
+import { CalendarEvent, deleteEvent } from "@/entities/event"
 
-import "./style.scss";
+import "./style.scss"
 
 export interface ReadProps {
-  eventClickId: string;
+  eventClickId: string
 }
 
 export const Read = ({ eventClickId }: ReadProps) => {
   const { result, isFetching } = useRxData<CalendarEvent>(
     "events",
     collection => collection.findOne({ selector: { id: eventClickId } }),
-  );
-  if (isFetching) return <div>Loading...</div>;
+  )
+  if (isFetching) return <div>Loading...</div>
 
-  const event = result[0];
-  if (!event) return <div>No event</div>;
+  const event = result[0]
+  if (!event) return <div>No event</div>
 
   const getDuration = () => {
     const duration = intervalToDuration({
       start: new Date(event.start),
       end: new Date(event.end),
-    });
+    })
 
-    return formatDuration(duration);
-  };
+    return formatDuration(duration)
+  }
 
   const handleDeleteEvent = async () => {
-    await deleteEvent(event.id);
-    closeModal();
-  };
+    await deleteEvent(event.id)
+    closeModal()
+  }
 
   const handleEditEvent = async () => {
-    openModal("editEvent", { eventId: event.id });
-  };
+    openModal("editEvent", { eventId: event.id })
+  }
 
   return (
     <div className="read">
@@ -71,5 +71,5 @@ export const Read = ({ eventClickId }: ReadProps) => {
         <button onClick={handleEditEvent}>Edit</button>
       </div>
     </div>
-  );
-};
+  )
+}

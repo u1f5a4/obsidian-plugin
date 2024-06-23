@@ -1,18 +1,18 @@
-import esbuild from "esbuild";
-import { sassPlugin } from "esbuild-sass-plugin";
-import path from "path";
-import process from "process";
-import { fileURLToPath } from "url";
+import esbuild from "esbuild"
+import { sassPlugin } from "esbuild-sass-plugin"
+import path from "path"
+import process from "process"
+import { fileURLToPath } from "url"
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
-const isProduction = process.argv[2] === "production";
+const isProduction = process.argv[2] === "production"
 
-const inputRoot = path.resolve(__dirname, "src", "app");
-const entryFile = path.join(inputRoot, "main.ts");
-const outputRoot = path.resolve(__dirname, "dist");
-const outputFile = path.join(outputRoot, "main.js");
+const inputRoot = path.resolve(__dirname, "src", "app")
+const entryFile = path.join(inputRoot, "main.ts")
+const outputRoot = path.resolve(__dirname, "dist")
+const outputFile = path.join(outputRoot, "main.js")
 
 const context = await esbuild.context({
   entryPoints: [entryFile],
@@ -44,13 +44,13 @@ const context = await esbuild.context({
     "@lezer/lr",
     ...getBuiltins(),
   ],
-});
+})
 
 if (isProduction) {
-  await context.rebuild();
-  process.exit(0);
+  await context.rebuild()
+  process.exit(0)
 } else {
-  await context.watch();
+  await context.watch()
 }
 
 function getBuiltins() {
@@ -108,5 +108,5 @@ function getBuiltins() {
     "wasi",
     "worker_threads",
     "zlib",
-  ];
+  ]
 }
