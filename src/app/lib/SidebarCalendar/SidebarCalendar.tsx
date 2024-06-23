@@ -1,31 +1,41 @@
 import { ScheduleXCalendar } from "@schedule-x/react";
-import { CalendarEvent } from "@schedule-x/shared";
 import "@schedule-x/theme-default/dist/index.css";
 import { endOfDay, format, startOfDay } from "date-fns";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
+import { RxCollection } from "rxdb";
 import { useRxData } from "rxdb-hooks";
 
-import { sanitizeEvent } from "@/entities/event";
+import { CalendarEvent, sanitizeEvent } from "@/entities/event";
+import { useEnsureCurrentDay } from "@/features/ensure-current-day";
+import { useScrollToTimeIndicator } from "@/features/ScrollToTimeIndicator";
 
 import { sidebarCalendar } from "./calendar";
 
-const today = new Date();
-const startOfToday = format(startOfDay(today), "yyyy-MM-dd HH:mm");
-const endOfToday = format(endOfDay(today), "yyyy-MM-dd HH:mm");
+const getToday = () => new Date();
+const getStartOfToday = () => format(startOfDay(getToday()), "yyyy-MM-dd HH:mm");
+const getEndOfToday = () => format(endOfDay(getToday()), "yyyy-MM-dd HH:mm");
 
 export const SidebarCalendar = () => {
-  const { result: events, isFetching } = useRxData<CalendarEvent>(
-    "events",
+  const currentDate = useEnsureCurrentDay({ calendar: sidebarCalendar });
+  useScrollToTimeIndicator("sidebar", 5, 500);
+
+  const queryConstructor = useCallback<(collection: RxCollection<CalendarEvent>) => any>(
     collection =>
       collection.find({
         selector: {
           $or: [
-            { start: { $gte: startOfToday, $lt: endOfToday } },
-            { end: { $gte: startOfToday, $lt: endOfToday } },
-            { start: { $lte: endOfToday }, end: { $gte: startOfToday } },
+            { start: { $gte: getStartOfToday(), $lt: getEndOfToday() } },
+            { end: { $gte: getStartOfToday(), $lt: getEndOfToday() } },
+            { start: { $lte: getEndOfToday() }, end: { $gte: getStartOfToday() } },
           ],
         },
       }),
+    [currentDate],
+  );
+
+  const { result: events, isFetching } = useRxData<CalendarEvent>(
+    "events",
+    queryConstructor,
   );
 
   useEffect(() => {

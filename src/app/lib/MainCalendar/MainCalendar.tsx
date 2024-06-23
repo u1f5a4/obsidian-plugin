@@ -5,9 +5,15 @@ import { useEffect } from "react";
 import { useRxData } from "rxdb-hooks";
 
 import { sanitizeEvent } from "@/entities/event";
+import { useEnsureCurrentDay } from "@/features/ensure-current-day";
+import { useScrollToTimeIndicator } from "@/features/ScrollToTimeIndicator";
+
 import { mainCalendar } from "./calendar";
 
 export const MainCalendar = () => {
+  useScrollToTimeIndicator("main-page");
+  useEnsureCurrentDay({ calendar: mainCalendar });
+
   const { result: events, isFetching } = useRxData<CalendarEvent>(
     "events",
     collection => collection.find(),

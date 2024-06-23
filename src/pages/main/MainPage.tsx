@@ -1,11 +1,8 @@
-import { MainCalendar } from "@/app/lib/MainCalendar";
-import { useScrollToTimeIndicator } from "@/features/ScrollToTimeIndicator";
+import { MainCalendar, mainCalendar } from "@/app/lib/MainCalendar";
 
 import "./style.scss";
 
 export const MainPage = () => {
-  useScrollToTimeIndicator("main-page");
-
   return (
     <div className="main-page">
       <MainCalendar />
