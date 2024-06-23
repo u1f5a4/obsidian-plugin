@@ -1,16 +1,16 @@
 import { ScheduleXCalendar } from "@schedule-x/react"
-import { CalendarEvent } from "@schedule-x/shared"
 import "@schedule-x/theme-default/dist/index.css"
-import { useEffect } from "react"
+import { useEffect, useMemo } from "react"
 import { useRxData } from "rxdb-hooks"
 
-import { sanitizeEvent } from "@/entities/event"
+import { CalendarEvent, sanitizeEvent } from "@/entities/event"
 import { useEnsureCurrentDay } from "@/features/ensure-current-day"
 import { useScrollToTimeIndicator } from "@/features/scroll-to-time-indicator"
-
-import { mainCalendar } from "./calendar"
+import { mainCalendar as calendar } from "./calendar"
 
 export const MainCalendar = () => {
+  const mainCalendar = useMemo(() => calendar.get(), [])
+
   useScrollToTimeIndicator("main-page")
   useEnsureCurrentDay({ calendar: mainCalendar })
 
@@ -22,7 +22,8 @@ export const MainCalendar = () => {
   useEffect(() => {
     if (!events) return
 
-    mainCalendar.events.set(events.map(sanitizeEvent))
+    const formatedEvents = events.map(sanitizeEvent)
+    mainCalendar.events.set(formatedEvents)
   }, [events])
 
   if (isFetching) return "loading..."

@@ -6,7 +6,7 @@ import { FormProvider, SubmitHandler, useForm } from "react-hook-form"
 
 import { closeModal } from "@/app/lib/plugin"
 import { createEvent } from "@/entities/event"
-import { EventForm, FieldValues } from "@/features/event-form"
+import { EventForm, EventFormDate } from "@/features/event-form"
 
 import "./style.scss"
 
@@ -15,13 +15,14 @@ export interface CreateProps {
 }
 
 export const Create = (props: CreateProps) => {
-  const methods = useForm<FieldValues>({
+  const methods = useForm<EventFormDate>({
     defaultValues: {
       title: "",
       startDate: "",
       startTime: "",
       endDate: "",
       endTime: "",
+      calendarId: "default", // TODO: get last ID or user favorite
     },
   })
   const { setValue } = methods
@@ -41,13 +42,14 @@ export const Create = (props: CreateProps) => {
     setValue("endTime", newEndTime)
   }, [])
 
-  const handleOnSubmit: SubmitHandler<FieldValues> = (formDate) => {
-    const { title, startDate, startTime, endDate, endTime } = formDate
+  const handleOnSubmit: SubmitHandler<EventFormDate> = (formDate) => {
+    const { title, startDate, startTime, endDate, endTime, calendarId } = formDate
 
     createEvent({
       title,
       start: `${startDate} ${startTime}`,
       end: `${endDate} ${endTime}`,
+      calendarId,
     })
 
     closeModal()

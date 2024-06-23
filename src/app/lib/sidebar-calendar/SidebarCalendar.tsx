@@ -1,7 +1,7 @@
 import { ScheduleXCalendar } from "@schedule-x/react"
 import "@schedule-x/theme-default/dist/index.css"
 import { endOfDay, format, startOfDay } from "date-fns"
-import { useCallback, useEffect } from "react"
+import { useCallback, useEffect, useMemo } from "react"
 import { RxCollection } from "rxdb"
 import { useRxData } from "rxdb-hooks"
 
@@ -9,15 +9,17 @@ import { CalendarEvent, sanitizeEvent } from "@/entities/event"
 import { useEnsureCurrentDay } from "@/features/ensure-current-day"
 import { useScrollToTimeIndicator } from "@/features/scroll-to-time-indicator"
 
-import { sidebarCalendar } from "./calendar"
+import { sidebarCalendar as calendar } from "./calendar"
 
 const getToday = () => new Date()
 const getStartOfToday = () => format(startOfDay(getToday()), "yyyy-MM-dd HH:mm")
 const getEndOfToday = () => format(endOfDay(getToday()), "yyyy-MM-dd HH:mm")
 
 export const SidebarCalendar = () => {
+  const sidebarCalendar = useMemo(() => calendar.get(), [])
+
   const currentDate = useEnsureCurrentDay({ calendar: sidebarCalendar })
-  useScrollToTimeIndicator("sidebar", 5, 500)
+  useScrollToTimeIndicator("sidebar", 5, 1000)
 
   const queryConstructor = useCallback<(collection: RxCollection<CalendarEvent>) => any>(
     collection =>
@@ -41,7 +43,8 @@ export const SidebarCalendar = () => {
   useEffect(() => {
     if (!events) return
 
-    sidebarCalendar.events.set(events.map(sanitizeEvent))
+    const formatedEvents = events.map(sanitizeEvent)
+    sidebarCalendar.events.set(formatedEvents)
   }, [events])
 
   if (isFetching) return "loading..."

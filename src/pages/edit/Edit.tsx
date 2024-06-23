@@ -5,7 +5,7 @@ import { useRxData } from "rxdb-hooks"
 
 import { closeModal } from "@/app/lib/plugin"
 import { CalendarEvent, sanitizeEvent, updateEvent } from "@/entities/event"
-import { EventForm, FieldValues } from "@/features/event-form"
+import { EventForm, EventFormDate } from "@/features/event-form"
 
 import "./style.scss"
 
@@ -19,13 +19,14 @@ export const Edit = (props: EditProps) => {
     collection => collection.findOne({ selector: { id: props.eventId } }),
   )
 
-  const methods = useForm<FieldValues>({
+  const methods = useForm<EventFormDate>({
     defaultValues: {
       title: "",
       startDate: "",
       startTime: "",
       endDate: "",
       endTime: "",
+      calendarId: "",
     },
   })
   const { setValue } = methods
@@ -33,7 +34,8 @@ export const Edit = (props: EditProps) => {
   useEffect(() => {
     if (!event) return
 
-    if (event.title) setValue("title", event.title)
+    setValue("title", event.title)
+    setValue("calendarId", event.calendarId)
 
     const start = new Date(event.start)
     const startDate = format("yyyy-MM-dd")(start)
@@ -50,12 +52,13 @@ export const Edit = (props: EditProps) => {
 
   if (isFetching) return <div>Loading...</div>
 
-  const handleOnSubmit: SubmitHandler<FieldValues> = async (formDate) => {
+  const handleOnSubmit: SubmitHandler<EventFormDate> = async (formDate) => {
     const event = {
       id: props.eventId,
       title: formDate.title,
       start: `${formDate.startDate} ${formDate.startTime}`,
       end: `${formDate.endDate} ${formDate.endTime}`,
+      calendarId: formDate.calendarId,
     }
 
     await updateEvent(event.id, sanitizeEvent(event))

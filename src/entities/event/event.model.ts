@@ -1,14 +1,17 @@
-import { RxJsonSchema } from "rxdb"
+import { RxDocument, RxJsonSchema } from "rxdb"
+
+import { CalendarEntity } from "../calendar"
 
 export interface CalendarEvent {
-  id: string | number
+  id: string
+  title: string
   start: string
   end: string
-  title?: string
+  calendarId: CalendarEntity["id"]
+
   people?: string[]
   location?: string
   description?: string
-  calendarId?: string
 }
 
 export const eventSchema: RxJsonSchema<CalendarEvent> = {
@@ -20,23 +23,27 @@ export const eventSchema: RxJsonSchema<CalendarEvent> = {
     title: { type: "string" },
     start: { type: "string" },
     end: { type: "string" },
+    calendarId: { type: "string" },
+
     location: { type: "string" },
     people: { type: "array", items: { type: "string" } },
     description: { type: "string" },
-    calendarId: { type: "string" },
   },
-  required: ["id", "start", "end"],
+  required: ["id", "start", "end", "title", "calendarId"],
 }
 
-export function sanitizeEvent(event: CalendarEvent): CalendarEvent {
-  return {
+export function sanitizeEvent(event: RxDocument<CalendarEvent> | CalendarEvent): CalendarEvent {
+  const clearEvent: CalendarEvent = {
     id: event.id,
     start: event.start,
     end: event.end,
     title: event.title,
-    people: event.people,
-    location: event.location,
-    description: event.description,
     calendarId: event.calendarId,
   }
+
+  if (event?.people?.length) clearEvent.people = event.people
+  if (event?.location) clearEvent.location = event.location
+  if (event?.description) clearEvent.description = event.description
+
+  return clearEvent
 }

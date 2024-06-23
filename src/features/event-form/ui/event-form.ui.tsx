@@ -1,22 +1,24 @@
 import { useFormContext } from "react-hook-form"
 
+import { CSelectCalendar } from "@/entities/calendar"
 import { CInput } from "@/shared/ui/CInput"
 import { CSelectDate } from "@/shared/ui/CSelectDate"
 import { CSelectTime } from "@/shared/ui/CSelectTime"
 
 import "./style.scss"
 
-export interface EventFormProps extends Partial<FieldValues> {
-  h1: string
-  onSubmit: (data: FieldValues) => void
-}
-
-export interface FieldValues {
+export interface EventFormDate {
   title: string
   startDate: string
   startTime: string
   endDate: string
   endTime: string
+  calendarId: string
+}
+
+export interface EventFormProps extends Partial<EventFormDate> {
+  h1: string
+  onSubmit: (data: EventFormDate) => void
 }
 
 export const EventForm = (props: EventFormProps) => {
@@ -25,7 +27,7 @@ export const EventForm = (props: EventFormProps) => {
     formState: { errors },
     control,
     getValues,
-  } = useFormContext<FieldValues>()
+  } = useFormContext<EventFormDate>()
 
   const validate = {
     validateEnd: () => {
@@ -77,19 +79,29 @@ export const EventForm = (props: EventFormProps) => {
         End:
       </label>
       <div>
-        <CSelectDate<FieldValues>
+        <CSelectDate<EventFormDate>
           name="endDate"
           control={control}
           rules={{ required: true, validate: validate.validateEnd }}
           errors={errors["endDate"]}
         />
-        <CSelectTime<FieldValues>
+        <CSelectTime<EventFormDate>
           name="endTime"
           control={control}
           rules={{ required: true, validate: validate.validateEnd }}
           errors={errors["endTime"]}
         />
       </div>
+
+      <label>
+        Select Calendar:
+      </label>
+      <CSelectCalendar<EventFormDate>
+        name="calendarId"
+        control={control}
+        rules={{ required: true }}
+        errors={errors["calendarId"]}
+      />
 
       <button type="submit">Submit</button>
     </form>

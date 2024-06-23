@@ -1,3 +1,4 @@
+import { CalendarEvent } from "@schedule-x/shared"
 import { addRxPlugin, createRxDatabase, RxCollection, RxDatabase } from "rxdb"
 import { disableWarnings, RxDBDevModePlugin } from "rxdb/plugins/dev-mode"
 import { RxDBJsonDumpPlugin } from "rxdb/plugins/json-dump"
@@ -5,12 +6,13 @@ import { RxDBQueryBuilderPlugin } from "rxdb/plugins/query-builder"
 import { getRxStorageDexie } from "rxdb/plugins/storage-dexie"
 import { RxDBUpdatePlugin } from "rxdb/plugins/update"
 
-import { IS_DEVELOPMENT } from "@/app/constants"
+import { IS_DEVELOPMENT } from "@/constants"
+import { addDefaultCalendar, CalendarEntity, calendarSchema } from "@/entities/calendar"
 import { eventSchema } from "@/entities/event"
-import { CalendarEvent } from "@schedule-x/shared"
 
 export interface Collections {
   events: RxCollection<CalendarEvent>
+  calendars: RxCollection<CalendarEntity>
 }
 
 class Database {
@@ -41,9 +43,18 @@ class Database {
       events: {
         schema: eventSchema,
       },
+      calendars: {
+        schema: calendarSchema,
+      },
     })
 
     this.myDatabase = myDatabase
+
+    await this.enrichment()
+  }
+
+  private async enrichment() {
+    await addDefaultCalendar()
   }
 
   public getDatabase() {

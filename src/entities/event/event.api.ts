@@ -14,7 +14,7 @@ export async function createEvent(entity: Omit<CalendarEvent, "id">) {
   })
 }
 
-export async function updateEvent(eventId: CalendarEvent["id"], newData: Partial<CalendarEvent>) {
+export async function updateEvent(eventId: CalendarEvent["id"], newData: Partial<Omit<CalendarEvent, "id">>) {
   const collection: RxCollection<CalendarEvent> = database.getCollection("events")
 
   const event = await collection.findOne({ selector: { id: eventId } }).exec()
@@ -23,6 +23,7 @@ export async function updateEvent(eventId: CalendarEvent["id"], newData: Partial
     const keysNewData = Object.keys(newData) as Array<keyof CalendarEvent>
 
     keysNewData.forEach((key) => {
+      if (key === "id") return
       if (newData[key] === undefined) return
 
       // TODO: fix type

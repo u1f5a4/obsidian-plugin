@@ -15,9 +15,11 @@ export const Read = ({ eventClickId }: ReadProps) => {
     "events",
     collection => collection.findOne({ selector: { id: eventClickId } }),
   )
-  if (isFetching) return <div>Loading...</div>
 
   const event = result[0]
+
+  if (isFetching) return <div>Loading...</div>
+
   if (!event) return <div>No event</div>
 
   const getDuration = () => {
@@ -64,6 +66,13 @@ export const Read = ({ eventClickId }: ReadProps) => {
           End:
         </label>
         <p>{event.end}</p>
+      </div>
+
+      <div>
+        <label>
+          Calendar:
+        </label>
+        <p>{event.calendarId}</p>
       </div>
 
       <div>

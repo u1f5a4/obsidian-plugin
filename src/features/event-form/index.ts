@@ -1,1 +1,1 @@
-export * from "./event-form.ui"
+export * from "./ui/event-form.ui"
