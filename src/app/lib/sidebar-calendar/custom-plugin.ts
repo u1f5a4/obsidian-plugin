@@ -23,8 +23,17 @@ class SidebarPlugin {
       onClickDate: (date) => {
         console.log("onClickDate", date)
       },
-      onClickDateTime: (dateTime) => {
-        console.log("onClickDateTime", dateTime)
+      onDoubleClickDate: (date) => {
+        console.log("onDoubleClickDate", date)
+      },
+      onClickDateTime: (clickDateTime) => {
+        openModal("onClickDateTime", { clickDateTime })
+      },
+      onDoubleClickDateTime: (clickDateTime) => {
+        console.log("onDoubleClickDateTime", clickDateTime)
+      },
+      onClickAgendaDate: (date) => {
+        console.log("onClickAgendaDate", date)
       },
       onClickPlusEvents: (date) => {
         console.log("onClickPlusEvents", date)

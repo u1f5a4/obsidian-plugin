@@ -1,4 +1,4 @@
-import { createCalendar, viewMonthGrid, viewWeek } from "@schedule-x/calendar"
+import { createCalendar, viewMonthAgenda, viewMonthGrid, viewWeek } from "@schedule-x/calendar"
 import { createCurrentTimePlugin } from "@schedule-x/current-time"
 import { createDragAndDropPlugin } from "@schedule-x/drag-and-drop"
 import { createResizePlugin } from "@schedule-x/resize"
@@ -25,7 +25,7 @@ class MainCalendar {
         new MainCalendarPlugin(),
       ],
       defaultView: viewWeek.name,
-      views: [viewWeek, viewMonthGrid],
+      views: [viewWeek, viewMonthGrid, viewMonthAgenda],
       events: [],
       isDark: false,
       calendars: this.calendars,

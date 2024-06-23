@@ -6,8 +6,8 @@ import { Create, CreateProps } from "@/pages/create/Create"
 import { Edit, EditProps } from "@/pages/edit/Edit"
 import { Read, ReadProps } from "@/pages/read/Read"
 
-import { IS_DEVELOPMENT, IS_PRODUCTION } from "@/app/constants"
 import { ProviderDB } from "@/app/model/rxdb"
+import { IS_DEVELOPMENT, IS_PRODUCTION } from "@/constants"
 
 import MyPlugin from "./plugin"
 

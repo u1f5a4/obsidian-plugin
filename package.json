@@ -8,7 +8,8 @@
     "build": "tsc -noEmit -skipLibCheck && node esbuild.config.mjs production && node './scripts/copy-css.js'",
     "version": "node version-bump.mjs && git add manifest.json versions.json",
     "create-graph-svg": "npx depcruise src --include-only '^src' --output-type dot | dot -T svg > dependency-graph.svg",
-    "create-graph-mermaid": "npx depcruise --exclude node_modules --output-type mermaid src --output-to dependency-graph.mmd"
+    "create-graph-mermaid": "npx depcruise --exclude node_modules --output-type mermaid src --output-to dependency-graph.mmd",
+    "ts-lint": "npx tsc --noEmit --skipLibCheck"
   },
   "keywords": [],
   "author": "",

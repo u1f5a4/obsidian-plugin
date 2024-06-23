@@ -23,13 +23,17 @@ class MainPlugin {
       onClickDate: (date) => {
         console.log("onClickDate", date)
       },
+      onDoubleClickDate: (date) => {
+        console.log("onDoubleClickDate", date)
+      },
       onClickDateTime: (clickDateTime) => {
-        console.log("onClickDateTime", clickDateTime)
-
         openModal("onClickDateTime", { clickDateTime })
       },
-      onClickPlusEvents: (date) => {
-        console.log("onClickPlusEvents", date)
+      onDoubleClickDateTime: (clickDateTime) => {
+        console.log("onDoubleClickDateTime", clickDateTime)
+      },
+      onClickAgendaDate: (date) => {
+        console.log("onClickAgendaDate", date)
       },
     }
   }

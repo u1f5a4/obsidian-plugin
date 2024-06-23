@@ -4,7 +4,7 @@ import { createRoot, Root } from "react-dom/client"
 
 import { Setting } from "@/pages/setting"
 
-import { IS_DEVELOPMENT, IS_PRODUCTION } from "@/app/constants"
+import { IS_DEVELOPMENT, IS_PRODUCTION } from "@/constants"
 
 import type MyPlugin from "./plugin"
 

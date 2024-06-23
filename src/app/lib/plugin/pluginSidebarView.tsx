@@ -2,8 +2,8 @@ import { ItemView, WorkspaceLeaf } from "obsidian"
 import { StrictMode } from "react"
 import { createRoot, Root } from "react-dom/client"
 
-import { IS_DEVELOPMENT, IS_PRODUCTION } from "@/app/constants"
 import { ProviderDB } from "@/app/model/rxdb"
+import { IS_DEVELOPMENT, IS_PRODUCTION } from "@/constants"
 import { Sidebar } from "@/pages/sidebar"
 
 import MyPlugin from "./plugin"
