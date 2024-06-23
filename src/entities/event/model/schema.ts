@@ -1,6 +1,6 @@
-import { RxDocument, RxJsonSchema } from "rxdb"
+import { RxJsonSchema } from "rxdb"
 
-import { CalendarEntity } from "../calendar"
+import { CalendarEntity } from "@/entities/calendar"
 
 export interface CalendarEvent {
   id: string
@@ -30,20 +30,4 @@ export const eventSchema: RxJsonSchema<CalendarEvent> = {
     description: { type: "string" },
   },
   required: ["id", "start", "end", "title", "calendarId"],
-}
-
-export function sanitizeEvent(event: RxDocument<CalendarEvent> | CalendarEvent): CalendarEvent {
-  const clearEvent: CalendarEvent = {
-    id: event.id,
-    start: event.start,
-    end: event.end,
-    title: event.title,
-    calendarId: event.calendarId,
-  }
-
-  if (event?.people?.length) clearEvent.people = event.people
-  if (event?.location) clearEvent.location = event.location
-  if (event?.description) clearEvent.description = event.description
-
-  return clearEvent
 }

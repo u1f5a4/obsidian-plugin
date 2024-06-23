@@ -1,15 +1,15 @@
 import { CalendarAppSingleton } from "@schedule-x/shared"
 
 import { openModal } from "@/app/lib/plugin"
-import { updateEvent } from "@/entities/event"
+import { CalendarEvent, updateEvent } from "@/entities/event"
 
 class MainPlugin {
   name = "main-caldendar-plugin"
 
   init($app: CalendarAppSingleton) {
     $app.config.callbacks = {
-      onEventUpdate: (event) => {
-        updateEvent(String(event.id), event)
+      onEventUpdate: (event: CalendarEvent) => {
+        updateEvent(event.id, event)
       },
       onEventClick: (event) => {
         openModal("onEventClick", { eventClickId: String(event.id) })
