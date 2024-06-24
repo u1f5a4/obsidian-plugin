@@ -1,6 +1,6 @@
-import { CalendarEntity, createCalendar, getCollectionCalendars } from ".."
+import { Calendar, createCalendar } from ".."
 
-const defaultCalendar: CalendarEntity = {
+const defaultCalendar: Calendar = {
   id: "default",
   lightColors: {
     main: "#f9d71c",
@@ -10,9 +10,5 @@ const defaultCalendar: CalendarEntity = {
 }
 
 export const addDefaultCalendar = async () => {
-  const collectionCalendars = getCollectionCalendars()
-
-  const isEmpty = await collectionCalendars.count().exec()
-
-  if (isEmpty === 0) await createCalendar(defaultCalendar)
+  return await createCalendar(defaultCalendar)
 }

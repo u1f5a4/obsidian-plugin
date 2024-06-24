@@ -1,6 +1,6 @@
 import { RxJsonSchema } from "rxdb"
 
-export interface CalendarEntity {
+export interface Calendar {
   id: string
   lightColors: {
     main: string
@@ -9,7 +9,7 @@ export interface CalendarEntity {
   }
 }
 
-export const calendarSchema: RxJsonSchema<CalendarEntity> = {
+export const schemaCalendar: RxJsonSchema<Calendar> = {
   version: 0,
   primaryKey: "id",
   type: "object",

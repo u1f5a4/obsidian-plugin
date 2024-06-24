@@ -1,6 +1,6 @@
-import { CalendarEntity, getCollectionCalendars } from ".."
+import { Calendar, getCollectionCalendars } from ".."
 
-export async function findOneById(calendarId: CalendarEntity["id"]) {
+export async function findOneById(calendarId: Calendar["id"]) {
   const collection = getCollectionCalendars()
 
   return await collection.findOne({ selector: { id: calendarId } }).exec()

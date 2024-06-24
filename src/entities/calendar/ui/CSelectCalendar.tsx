@@ -1,8 +1,7 @@
 import { Control, Controller, FieldError, FieldValues, Path, RegisterOptions } from "react-hook-form"
 import { useRxData } from "rxdb-hooks"
 
-import { useEffect } from "react"
-import { CalendarEntity } from "../model/calendar.model"
+import { Calendar } from ".."
 
 type CSelectCalendarProps<T extends FieldValues> = {
   name: Path<T>
@@ -14,7 +13,7 @@ type CSelectCalendarProps<T extends FieldValues> = {
 export const CSelectCalendar = <T extends FieldValues>(
   { name, control, rules, errors }: CSelectCalendarProps<T>,
 ) => {
-  const { result, isFetching } = useRxData<CalendarEntity>(
+  const { result, isFetching } = useRxData<Calendar>(
     "calendars",
     collection => collection.find({}),
   )

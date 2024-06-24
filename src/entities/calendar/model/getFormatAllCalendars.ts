@@ -1,6 +1,6 @@
-import { CalendarEntity, getCollectionCalendars } from ".."
+import { Calendar, getCollectionCalendars } from ".."
 
-export type FormatCalendar = Omit<CalendarEntity, "id"> & { colorName: string }
+export type FormatCalendar = Omit<Calendar, "id"> & { colorName: string }
 
 export async function getFormatAllCalendars(): Promise<Record<string, FormatCalendar>> {
   const collection = getCollectionCalendars()
