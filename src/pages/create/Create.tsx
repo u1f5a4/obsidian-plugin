@@ -3,10 +3,11 @@ import { addMinutes, format } from "date-fns/fp"
 import { flow } from "lodash"
 import { useEffect } from "react"
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form"
+import { useRxData } from "rxdb-hooks"
 
 import { closeModal } from "@/app/lib/plugin"
-import { createEvent } from "@/entities/event"
-import { EventForm, EventFormDate } from "@/features/event-form"
+import { createEvent, EventForm, EventFormDate } from "@/entities/event"
+import { Settings } from "@/entities/settings"
 
 import "./style.scss"
 
@@ -15,6 +16,11 @@ export interface CreateProps {
 }
 
 export const Create = (props: CreateProps) => {
+  const { result: [settings], isFetching } = useRxData<Settings>(
+    "settings",
+    collection => collection.findOne({ selector: {} }),
+  )
+
   const methods = useForm<EventFormDate>({
     defaultValues: {
       title: "",
@@ -22,7 +28,7 @@ export const Create = (props: CreateProps) => {
       startTime: "",
       endDate: "",
       endTime: "",
-      calendarId: "default", // TODO: get last ID or user favorite
+      calendarId: "",
     },
   })
   const { setValue } = methods
@@ -42,6 +48,12 @@ export const Create = (props: CreateProps) => {
     setValue("endTime", newEndTime)
   }, [])
 
+  useEffect(() => {
+    if (isFetching) return
+
+    setValue("calendarId", settings.favoriteCalendarId)
+  }, [isFetching])
+
   const handleOnSubmit: SubmitHandler<EventFormDate> = (formDate) => {
     const { title, startDate, startTime, endDate, endTime, calendarId } = formDate
 
@@ -54,6 +66,8 @@ export const Create = (props: CreateProps) => {
 
     closeModal()
   }
+
+  if (isFetching) return "loading..."
 
   return (
     <FormProvider {...methods}>
