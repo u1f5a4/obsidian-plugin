@@ -1,7 +1,7 @@
 import { randomUUID } from "crypto"
 import { RxCollection } from "rxdb"
 
-import { database } from "@/app/model/rxdb"
+import { database } from "@/app/rxdb"
 
 import { CalendarEvent } from ".."
 

@@ -1,1 +1,1 @@
-export * from "./SelectFavoriteCalendarForm.ui"
+export * from "./ui/SelectFavoriteCalendarForm"
