@@ -1,20 +1,20 @@
 import { RxJsonSchema } from "rxdb"
 
-import { CalendarEntity } from "@/entities/calendar"
+import { Calendar } from "@/entities/calendar"
 
 export interface CalendarEvent {
   id: string
   title: string
   start: string
   end: string
-  calendarId: CalendarEntity["id"]
+  calendarId: Calendar["id"]
 
   people?: string[]
   location?: string
   description?: string
 }
 
-export const eventSchema: RxJsonSchema<CalendarEvent> = {
+export const schemaEvent: RxJsonSchema<CalendarEvent> = {
   version: 0,
   primaryKey: "id",
   type: "object",

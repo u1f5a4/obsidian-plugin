@@ -5,7 +5,7 @@ import { useRxData } from "rxdb-hooks"
 
 import { closeModal } from "@/app/lib/plugin"
 import { CalendarEvent, sanitizeEvent, updateEvent } from "@/entities/event"
-import { EventForm, EventFormDate } from "@/features/event-form"
+import { EventForm, EventFormDate } from "@/entities/event"
 
 import "./style.scss"
 
