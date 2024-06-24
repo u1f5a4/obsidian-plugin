@@ -1,17 +1,15 @@
 import { Calendar, getCollectionCalendars } from ".."
 
-export type FormatCalendar = Omit<Calendar, "id"> & { colorName: string }
-
-export async function getFormatAllCalendars(): Promise<Record<string, FormatCalendar>> {
+export async function getFormatAllCalendars(): Promise<Record<string, Calendar>> {
   const collection = getCollectionCalendars()
 
   const all = await collection.find({}).exec()
 
-  const calendars: Record<string, FormatCalendar> = {}
+  const calendars: Record<string, Calendar> = {}
 
   all?.forEach(calendar => {
-    calendars[calendar.id] = {
-      colorName: calendar.id,
+    calendars[calendar.colorName] = {
+      colorName: calendar.colorName,
       lightColors: { ...calendar.lightColors },
     }
   })

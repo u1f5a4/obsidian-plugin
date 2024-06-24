@@ -1,7 +1,7 @@
 import { Calendar, createCalendar } from ".."
 
 const defaultCalendar: Calendar = {
-  id: "default",
+  colorName: "default",
   lightColors: {
     main: "#f9d71c",
     container: "#fff5aa",

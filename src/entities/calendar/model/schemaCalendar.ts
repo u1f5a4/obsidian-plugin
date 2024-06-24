@@ -1,20 +1,22 @@
 import { RxJsonSchema } from "rxdb"
 
 export interface Calendar {
-  id: string
-  lightColors: {
-    main: string
-    container: string
-    onContainer: string
-  }
+  colorName: string
+  lightColors: ColorScheme
+}
+
+interface ColorScheme {
+  main: string
+  container: string
+  onContainer: string
 }
 
 export const schemaCalendar: RxJsonSchema<Calendar> = {
   version: 0,
-  primaryKey: "id",
+  primaryKey: "colorName",
   type: "object",
   properties: {
-    id: { type: "string", pattern: "^[a-z]+$", maxLength: 32 },
+    colorName: { type: "string", pattern: "^[a-z]+$", maxLength: 32 },
     lightColors: {
       type: "object",
       properties: {
@@ -25,5 +27,5 @@ export const schemaCalendar: RxJsonSchema<Calendar> = {
       required: ["main", "container", "onContainer"],
     },
   },
-  required: ["id", "lightColors"],
+  required: ["colorName", "lightColors"],
 }

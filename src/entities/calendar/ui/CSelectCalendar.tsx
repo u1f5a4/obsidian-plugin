@@ -35,8 +35,8 @@ export const CSelectCalendar = <T extends FieldValues>(
       render={({ field }) => (
         <select style={style} {...field}>
           {result?.map(calendar => (
-            <option key={calendar.id} value={calendar.id}>
-              {calendar.id}
+            <option key={calendar.colorName} value={calendar.colorName}>
+              {calendar.colorName}
             </option>
           ))}
         </select>

@@ -12,7 +12,6 @@ export default class MyPlugin extends Plugin {
   async onload() {
     this.app.workspace.onLayoutReady(async () => {
       await database.init()
-
       await mainCalendar.init()
       await sidebarCalendar.init()
 

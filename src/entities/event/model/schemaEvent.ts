@@ -7,7 +7,7 @@ export interface CalendarEvent {
   title: string
   start: string
   end: string
-  calendarId: Calendar["id"]
+  calendarId: Calendar["colorName"]
 
   people?: string[]
   location?: string
