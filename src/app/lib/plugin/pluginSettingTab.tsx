@@ -2,10 +2,11 @@ import { App, PluginSettingTab } from "obsidian"
 import { StrictMode } from "react"
 import { createRoot, Root } from "react-dom/client"
 
-import { Setting } from "@/pages/setting"
+import { Settings } from "@/pages/settings"
 
 import { IS_DEVELOPMENT, IS_PRODUCTION } from "@/constants"
 
+import { ProviderDB } from "@/app/model/rxdb"
 import type MyPlugin from "./plugin"
 
 export async function initSettingTab(plugin: MyPlugin) {
@@ -25,14 +26,18 @@ class SettingTab extends PluginSettingTab {
     if (IS_PRODUCTION) {
       this.root.render(
         <StrictMode>
-          <Setting />
+          <ProviderDB>
+            <Settings />
+          </ProviderDB>
         </StrictMode>,
       )
     }
 
     if (IS_DEVELOPMENT) {
       this.root.render(
-        <Setting />,
+        <ProviderDB>
+          <Settings />
+        </ProviderDB>,
       )
     }
   }

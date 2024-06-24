@@ -1,25 +1,27 @@
-import { CalendarEvent } from "@schedule-x/shared"
-import { addRxPlugin, createRxDatabase, RxCollection, RxDatabase } from "rxdb"
+import { addRxPlugin, createRxDatabase, RxCollection, RxDatabase, RxState } from "rxdb"
 import { disableWarnings, RxDBDevModePlugin } from "rxdb/plugins/dev-mode"
 import { RxDBJsonDumpPlugin } from "rxdb/plugins/json-dump"
+import { RxDBLocalDocumentsPlugin } from "rxdb/plugins/local-documents"
 import { RxDBQueryBuilderPlugin } from "rxdb/plugins/query-builder"
 import { getRxStorageDexie } from "rxdb/plugins/storage-dexie"
 import { RxDBUpdatePlugin } from "rxdb/plugins/update"
 
+import { addDefaultCalendar, type Calendar, schemaCalendar } from "@/entities/calendar"
+import { type CalendarEvent, schemaEvent } from "@/entities/event"
+import { createDefaultSettings, schemaSettings, type Settings } from "@/entities/settings"
+
 import { IS_DEVELOPMENT } from "@/constants"
-import { addDefaultCalendar, CalendarEntity, calendarSchema } from "@/entities/calendar"
-import { eventSchema } from "@/entities/event"
+import { StateDB } from "./state.model"
 
 export interface Collections {
   events: RxCollection<CalendarEvent>
-  calendars: RxCollection<CalendarEntity>
+  calendars: RxCollection<Calendar>
+  settings: RxCollection<Settings>
 }
 
 class Database {
   private myDatabase: any
-
-  constructor() {
-  }
+  private myState: StateDB
 
   async init() {
     if (IS_DEVELOPMENT) {
@@ -30,31 +32,44 @@ class Database {
     addRxPlugin(RxDBQueryBuilderPlugin)
     addRxPlugin(RxDBUpdatePlugin)
     addRxPlugin(RxDBJsonDumpPlugin)
+    addRxPlugin(RxDBLocalDocumentsPlugin)
 
     // How disable warnings?
     // move "node_modules/rxdb/dist/esm/plugins/storage-dexie/rx-storage-instance-dexie.js" to comment out line 30
     const myDatabase: RxDatabase<Collections> = await createRxDatabase({
       name: "test",
       storage: getRxStorageDexie(),
-      ignoreDuplicate: true,
+      localDocuments: true,
     })
 
     await myDatabase.addCollections({
       events: {
-        schema: eventSchema,
+        schema: schemaEvent,
       },
       calendars: {
-        schema: calendarSchema,
+        schema: schemaCalendar,
+      },
+      settings: {
+        schema: schemaSettings,
       },
     })
 
     this.myDatabase = myDatabase
 
-    await this.enrichment()
+    this.myState = await new StateDB(myDatabase).init()
+
+    await this.handleFirstLaunch()
   }
 
-  private async enrichment() {
+  private async handleFirstLaunch() {
+    const isFirstLaunch = await this.myState.get("isFirstLaunch")
+
+    if (!isFirstLaunch) return
+
     await addDefaultCalendar()
+    await createDefaultSettings()
+
+    await this.myState.set("isFirstLaunch", false)
   }
 
   public getDatabase() {
