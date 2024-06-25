@@ -1,11 +1,13 @@
 import { Calendar, getCollectionCalendars } from ".."
 
-export async function getFormatAllCalendars(): Promise<Record<string, Calendar>> {
+export type CalendarFormattedStructure = Record<string, Pick<Calendar, "colorName" | "lightColors">>
+
+export async function getFormatAllCalendars(): Promise<CalendarFormattedStructure> {
   const collection = getCollectionCalendars()
 
   const all = await collection.find({}).exec()
 
-  const calendars: Record<string, Calendar> = {}
+  const calendars: CalendarFormattedStructure = {}
 
   all?.forEach(calendar => {
     calendars[calendar.colorName] = {

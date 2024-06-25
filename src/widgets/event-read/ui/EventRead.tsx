@@ -38,6 +38,7 @@ export const EventRead = ({ eventClickId }: ReadProps) => {
   }
 
   const handleEditEvent = async () => {
+    modalView.close()
     modalView.open(<EventEditForm eventId={event.id} />)
   }
 

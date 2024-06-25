@@ -8,5 +8,5 @@ export async function deleteEvent(eventId: CalendarEvent["id"]) {
   const collection: RxCollection<CalendarEvent> = database.getCollection("events")
 
   const event = await collection.findOne({ selector: { id: eventId } }).exec()
-  await event?.remove()
+  return await event?.remove()
 }

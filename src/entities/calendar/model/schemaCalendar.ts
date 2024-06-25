@@ -3,6 +3,9 @@ import { RxJsonSchema } from "rxdb"
 export interface Calendar {
   colorName: string
   lightColors: ColorScheme
+
+  type: "local" | "url"
+  url: string
 }
 
 interface ColorScheme {
@@ -26,6 +29,9 @@ export const schemaCalendar: RxJsonSchema<Calendar> = {
       },
       required: ["main", "container", "onContainer"],
     },
+
+    type: { type: "string" },
+    url: { type: "string" },
   },
-  required: ["colorName", "lightColors"],
+  required: ["colorName", "lightColors", "type"],
 }

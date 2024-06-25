@@ -7,6 +7,8 @@ const defaultCalendar: Calendar = {
     container: "#fff5aa",
     onContainer: "#594800",
   },
+  type: "local",
+  url: "",
 }
 
 export const addDefaultCalendar = async () => {

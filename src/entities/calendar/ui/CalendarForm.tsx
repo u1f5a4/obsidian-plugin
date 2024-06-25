@@ -1,19 +1,23 @@
-import { useFormContext } from "react-hook-form"
+import { useFormContext, useWatch } from "react-hook-form"
 
-import { Calendar, createCalendar } from "@/entities/calendar"
+import { Calendar } from "@/entities/calendar"
 import { CColorPicker } from "@/shared/ui/CColorPicker"
 import { CInput } from "@/shared/ui/CInput"
+import { CSelect } from "@/shared/ui/CSelect"
 
 import "./style.scss"
 
 type CalendarFormProps = {
-  h2: string
+  h3?: string
   onSubmit: (data: CalendarFormDate) => void
+  buttonText: string
 }
 
 export type CalendarFormDate =
   & {
     colorName: Calendar["colorName"]
+    type: Calendar["type"]
+    url: Calendar["url"]
   }
   & {
     [key in keyof Calendar["lightColors"]]: string
@@ -26,14 +30,42 @@ export const CalendarForm = (props: CalendarFormProps) => {
     control,
   } = useFormContext<CalendarFormDate>()
 
+  const type = useWatch({ control, name: "type" })
+
   return (
     <form onSubmit={handleSubmit(props.onSubmit)} className="calendar-form">
-      <h3>Create new calendar</h3>
+      {props?.h3 && <h3>{props.h3}</h3>}
 
       <label>
         Name:
       </label>
       <CInput name="colorName" control={control} rules={{ required: true }} errors={errors["colorName"]} />
+
+      <label>
+        Type:
+      </label>
+      <CSelect<CalendarFormDate, { value: Calendar["type"] }>
+        name="type"
+        control={control}
+        rules={{ required: true }}
+        errors={errors["type"]}
+        options={[{ value: "local" }, { value: "url" }]}
+        uniqKey="value"
+      />
+
+      {type === "url" && (
+        <>
+          <label>
+            URL:
+          </label>
+          <CInput
+            name="url"
+            control={control}
+            rules={{ required: true, validate: (value) => value.startsWith("https://") }}
+            errors={errors["url"]}
+          />
+        </>
+      )}
 
       <label>
         Main color:
@@ -61,7 +93,7 @@ export const CalendarForm = (props: CalendarFormProps) => {
       />
 
       <button type="submit">
-        Create
+        {props.buttonText}
       </button>
     </form>
   )

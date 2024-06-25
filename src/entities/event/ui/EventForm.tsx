@@ -1,11 +1,12 @@
 import { useFormContext } from "react-hook-form"
 
-import { CSelectCalendar } from "@/entities/calendar"
+import { Calendar } from "@/entities/calendar"
 import { CInput } from "@/shared/ui/CInput"
 import { CSelectDate } from "@/shared/ui/CSelectDate"
 import { CSelectTime } from "@/shared/ui/CSelectTime"
 
 import "./style.scss"
+import { CSelect } from "@/shared/ui/CSelect"
 
 export interface EventFormDate {
   title: string
@@ -16,9 +17,11 @@ export interface EventFormDate {
   calendarId: string
 }
 
-export interface EventFormProps extends Partial<EventFormDate> {
+export interface EventFormProps {
   h1: string
   onSubmit: (data: EventFormDate) => void
+  buttonText: string
+  calendars: Calendar[]
 }
 
 export const EventForm = (props: EventFormProps) => {
@@ -96,14 +99,16 @@ export const EventForm = (props: EventFormProps) => {
       <label>
         Select Calendar:
       </label>
-      <CSelectCalendar<EventFormDate>
+      <CSelect<EventFormDate, Calendar>
         name="calendarId"
         control={control}
         rules={{ required: true }}
         errors={errors["calendarId"]}
+        options={props.calendars}
+        uniqKey="colorName"
       />
 
-      <button type="submit">Submit</button>
+      <button type="submit">{props.buttonText}</button>
     </form>
   )
 }

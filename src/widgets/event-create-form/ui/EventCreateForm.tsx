@@ -5,7 +5,8 @@ import { useEffect } from "react"
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form"
 import { useRxData } from "rxdb-hooks"
 
-import { createEvent, EventForm, EventFormDate } from "@/entities/event"
+import { type Calendar } from "@/entities/calendar"
+import { createEvent, EventForm, type EventFormDate } from "@/entities/event"
 import { modalView } from "@/entities/modal"
 import { Settings } from "@/entities/settings"
 
@@ -14,7 +15,12 @@ export interface CreateProps {
 }
 
 export const EventCreateForm = (props: CreateProps) => {
-  const { result: [settings], isFetching } = useRxData<Settings>(
+  const { result: calendars, isFetching: isFetchingCalendars } = useRxData<Calendar>(
+    "calendars",
+    collection => collection.find({}),
+  )
+
+  const { result: [settings], isFetching: isFetchingSettings } = useRxData<Settings>(
     "settings",
     collection => collection.findOne({ selector: {} }),
   )
@@ -38,7 +44,7 @@ export const EventCreateForm = (props: CreateProps) => {
     const date = roundToNearestMinutes(clickDateTime, { nearestTo: 15 })
     const dateFormat = format("yyyy-MM-dd")(date)
     const newStartTime = format("HH:mm")(date)
-    const newEndTime = flow(addMinutes(15), format("HH:mm"))(date)
+    const newEndTime = flow(addMinutes(30), format("HH:mm"))(date)
 
     setValue("startDate", dateFormat)
     setValue("endDate", dateFormat)
@@ -47,10 +53,10 @@ export const EventCreateForm = (props: CreateProps) => {
   }, [])
 
   useEffect(() => {
-    if (isFetching) return
+    if (isFetchingSettings) return
 
     setValue("calendarId", settings.favoriteCalendarId)
-  }, [isFetching])
+  }, [isFetchingSettings])
 
   const handleOnSubmit: SubmitHandler<EventFormDate> = (formDate) => {
     const { title, startDate, startTime, endDate, endTime, calendarId } = formDate
@@ -65,11 +71,11 @@ export const EventCreateForm = (props: CreateProps) => {
     modalView.close()
   }
 
-  if (isFetching) return "loading..."
+  if (isFetchingSettings || isFetchingCalendars) return "loading..."
 
   return (
     <FormProvider {...methods}>
-      <EventForm h1="Create" onSubmit={handleOnSubmit} />
+      <EventForm h1="Create" onSubmit={handleOnSubmit} buttonText="Create" calendars={calendars} />
     </FormProvider>
   )
 }

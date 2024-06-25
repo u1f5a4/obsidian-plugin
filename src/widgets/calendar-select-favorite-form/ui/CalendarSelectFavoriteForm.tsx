@@ -1,11 +1,13 @@
 import { useForm } from "react-hook-form"
 
-import { CSelectCalendar } from "@/entities/calendar"
+import { Calendar } from "@/entities/calendar"
 import { updateSettings } from "@/entities/settings"
 
 import "./style.scss"
+import { CSelect } from "@/shared/ui/CSelect"
 
 type SelectFavoriteCalendarFormProps = {
+  calendars: Calendar[]
   favoriteCalendarId: string
 }
 
@@ -16,7 +18,6 @@ type SelectFavoriteCalendarFormDate = {
 export const SelectFavoriteCalendarForm = (props: SelectFavoriteCalendarFormProps) => {
   const {
     handleSubmit,
-    formState: { errors },
     control,
   } = useForm<SelectFavoriteCalendarFormDate>({
     defaultValues: {
@@ -29,18 +30,19 @@ export const SelectFavoriteCalendarForm = (props: SelectFavoriteCalendarFormProp
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="select-favorite-calendar-form">
+    <form onSubmit={handleSubmit(onSubmit)} className="calendar-select-favorite-form">
       <h3>Set favorite calendar</h3>
 
       <label>
         Favorite calendar:
       </label>
 
-      <CSelectCalendar<SelectFavoriteCalendarFormDate>
+      <CSelect<SelectFavoriteCalendarFormDate, Calendar>
         name="favoriteCalendarId"
         control={control}
         rules={{ required: true }}
-        errors={errors["favoriteCalendarId"]}
+        options={props.calendars}
+        uniqKey="colorName"
       />
 
       <button type="submit">

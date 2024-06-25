@@ -3,12 +3,12 @@ import { createCurrentTimePlugin } from "@schedule-x/current-time"
 import { createDragAndDropPlugin } from "@schedule-x/drag-and-drop"
 import { createResizePlugin } from "@schedule-x/resize"
 
-import { Calendar, getFormatAllCalendars } from "@/entities/calendar"
+import { type CalendarFormattedStructure, getFormatAllCalendars } from "@/entities/calendar"
 
 import SidebarCalendarPlugin from "./custom-plugin"
 
 class SidebarCalendar {
-  calendars?: Record<string, Calendar> = undefined
+  calendars?: CalendarFormattedStructure
 
   async init() {
     this.calendars = await getFormatAllCalendars()

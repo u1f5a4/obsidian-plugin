@@ -3,8 +3,9 @@ import { useEffect } from "react"
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form"
 import { useRxData } from "rxdb-hooks"
 
-import { CalendarEvent, sanitizeEvent, updateEvent } from "@/entities/event"
-import { EventForm, EventFormDate } from "@/entities/event"
+import { type Calendar } from "@/entities/calendar"
+import { type CalendarEvent, sanitizeEvent, updateEvent } from "@/entities/event"
+import { EventForm, type EventFormDate } from "@/entities/event"
 import { modalView } from "@/entities/modal"
 
 export interface EditProps {
@@ -12,7 +13,12 @@ export interface EditProps {
 }
 
 export const EventEditForm = (props: EditProps) => {
-  const { result: [event], isFetching } = useRxData<CalendarEvent>(
+  const { result: calendars, isFetching: isFetchingCalendars } = useRxData<Calendar>(
+    "calendars",
+    collection => collection.find({}),
+  )
+
+  const { result: [event], isFetching: isFetchingEvents } = useRxData<CalendarEvent>(
     "events",
     collection => collection.findOne({ selector: { id: props.eventId } }),
   )
@@ -48,7 +54,7 @@ export const EventEditForm = (props: EditProps) => {
     setValue("endTime", endTime)
   }, [event])
 
-  if (isFetching) return <div>Loading...</div>
+  if (isFetchingEvents || isFetchingCalendars) return <div>Loading...</div>
 
   const handleOnSubmit: SubmitHandler<EventFormDate> = async (formDate) => {
     const event = {
@@ -66,7 +72,7 @@ export const EventEditForm = (props: EditProps) => {
 
   return (
     <FormProvider {...methods}>
-      <EventForm h1="Edit" onSubmit={handleOnSubmit} />
+      <EventForm h1="Edit" onSubmit={handleOnSubmit} buttonText="Save" calendars={calendars} />
     </FormProvider>
   )
 }
