@@ -10,7 +10,7 @@ export async function initMainView(plugin: MyPlugin) {
     (leaf) => new MainView(leaf),
   )
 
-  plugin.addRibbonIcon("calendar", "Activate view", async () => {
+  plugin.addRibbonIcon("calendar", "Activate main view", async () => {
     const { workspace } = plugin.app
 
     let leaf: WorkspaceLeaf | null = null
@@ -24,5 +24,5 @@ export async function initMainView(plugin: MyPlugin) {
     }
 
     if (leaf) workspace.revealLeaf(leaf)
-  })
+  }).addClass("obsidian-plugin-ribbon-class-activate-main-view")
 }

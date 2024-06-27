@@ -12,7 +12,7 @@ export async function initSidebarView(plugin: MyPlugin) {
     (leaf) => new SidebarView(leaf),
   )
 
-  plugin.addRibbonIcon("sidebar", "Activate view", async () => {
+  plugin.addRibbonIcon("sidebar", "Activate sidebar view", async () => {
     const { workspace } = plugin.app
 
     let leaf: WorkspaceLeaf | null = null
@@ -26,5 +26,5 @@ export async function initSidebarView(plugin: MyPlugin) {
     }
 
     if (leaf) workspace.revealLeaf(leaf)
-  })
+  }).addClass("obsidian-plugin-ribbon-class-activate-sidebar-view")
 }

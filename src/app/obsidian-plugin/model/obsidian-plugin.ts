@@ -1,4 +1,4 @@
-import { Plugin } from "obsidian"
+import { Notice, Plugin } from "obsidian"
 
 import { initMainView, mainCalendar } from "@/app/main-calendar"
 import { database } from "@/app/rxdb"
@@ -13,9 +13,9 @@ export default class MyPlugin extends Plugin {
 
       await mainCalendar.init()
       await sidebarCalendar.init()
-
       await initMainView(this)
       await initSidebarView(this)
+
       await initSettingTab(this)
       await modalView.init(this)
     })
