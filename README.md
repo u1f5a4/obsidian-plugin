@@ -7,6 +7,3 @@
 <p align="center">
   <img src="./dependency-graph.svg" />
 </p>
-
-## Use:
-- https://github.com/pjeby/hot-reload
