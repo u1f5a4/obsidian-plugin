@@ -1,1 +1,1 @@
-export * from "./scroll-to-time-indicator.model"
+export * from "./model/useScrollToTimeIndicator"

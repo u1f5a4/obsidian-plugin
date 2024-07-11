@@ -1,0 +1,39 @@
+.main-page {
+  height: 100%;
+
+  .sx-react-calendar-wrapper {
+    height: 100%;
+  }
+
+  .sx__current-time-indicator {
+    z-index: 1;
+  }
+
+  .sx__week-header {
+    z-index: 2;
+  }
+
+  .sx__view-selection-items{
+    z-index: 3;
+  }
+
+  .sx__date-picker-popup {
+    z-index: 3;
+  }
+
+  .sx__date-input {
+    height: unset;
+    background: unset;
+    color: unset;
+    border: var(--sx-border);
+  }
+
+  button {
+    box-shadow: unset;
+  }
+
+  .sx__today-button {
+    height: unset;
+  }
+}
+

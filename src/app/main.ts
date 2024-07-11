@@ -1,4 +1,4 @@
-import ObsidianPlugin from "./lib/plugin"
+import ObsidianPlugin from "./obsidian-plugin"
 
 import "./reseter.css"
 
