@@ -8,6 +8,7 @@ import { useEnsureCurrentDay } from "@/features/ensure-current-day"
 import { useScrollToTimeIndicator } from "@/features/scroll-to-time-indicator"
 
 import "./style.scss"
+import { useGetRemoteCalendarsEvents } from "@/features/get-remote-calendars-events"
 
 type MainCalendarProps = {
   calendar: any
@@ -16,6 +17,7 @@ type MainCalendarProps = {
 export const MainCalendar = ({ calendar }: MainCalendarProps) => {
   useScrollToTimeIndicator({ container: "main-page", delayMinutes: 60 })
   useEnsureCurrentDay({ calendar })
+  const [remoteEvents] = useGetRemoteCalendarsEvents()
 
   const { result: events, isFetching } = useRxData<CalendarEvent>(
     "events",
@@ -23,11 +25,11 @@ export const MainCalendar = ({ calendar }: MainCalendarProps) => {
   )
 
   useEffect(() => {
-    if (!events) return
+    if (!events || !remoteEvents) return
 
-    const formatedEvents = events.map(sanitizeEvent)
+    const formatedEvents = [...events, ...remoteEvents].map(sanitizeEvent)
     calendar.events.set(formatedEvents)
-  }, [events])
+  }, [events, remoteEvents])
 
   if (isFetching) return "loading..."
 

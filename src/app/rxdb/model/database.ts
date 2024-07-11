@@ -10,6 +10,7 @@ import { addDefaultCalendar, type Calendar, schemaCalendar } from "@/entities/ca
 import { type CalendarEvent, schemaEvent } from "@/entities/event"
 import { createDefaultSettings, schemaSettings, type Settings } from "@/entities/settings"
 
+import { RemoteEvent, schemaRemoteEvent } from "@/entities/remote-event"
 import { IS_DEVELOPMENT } from "@/shared/constants"
 import { StateDB } from "./state"
 
@@ -17,6 +18,7 @@ export interface Collections {
   events: RxCollection<CalendarEvent>
   calendars: RxCollection<Calendar>
   settings: RxCollection<Settings>
+  "remote-events": RxCollection<RemoteEvent>
 }
 
 class Database {
@@ -51,6 +53,9 @@ class Database {
       },
       settings: {
         schema: schemaSettings,
+      },
+      "remote-events": {
+        schema: schemaRemoteEvent,
       },
     })
 
